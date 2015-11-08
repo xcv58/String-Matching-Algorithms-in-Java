@@ -30,6 +30,7 @@ public class KMP implements Match {
             return array;
         }
         char[] charArray = pattern.toCharArray();
+        // TODO: use existing information to speedup
         for (int i = 1; i < charArray.length; i++) {
             for (int j = i - 1; j >= 0; j--) {
                 boolean match = true;
