@@ -6,19 +6,26 @@ public class KMP implements Match {
             return -1;
         }
 
+        if ("".equals(pattern)) {
+            return 0;
+        }
+
+        if ("".equals(s)) {
+            return -1;
+        }
+
         int[] kmpArray = getKMPArray(pattern);
 
-        for (int i = 0; i < s.length() - pattern.length() + 1; i++) {
-            boolean match = true;
-            for (int j = 0; j < pattern.length(); j++) {
-                if (s.charAt(i + j) != pattern.charAt(j)) {
-                    match = false;
-                    i += kmpArray[j];
-                    break;
-                }
+        for (int i = 0, j = 0; i < s.length(); ) {
+            if (s.charAt(i) != pattern.charAt(j)) {
+                i += j == 0 ? 1 : 0;
+                j = kmpArray[j];
+            } else {
+                j++;
+                i++;
             }
-            if (match) {
-                return i;
+            if (j == kmpArray.length) {
+                return i - j;
             }
         }
         return -1;
