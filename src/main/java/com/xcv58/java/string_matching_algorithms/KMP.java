@@ -16,16 +16,17 @@ public class KMP implements Match {
 
         int[] kmpArray = getKMPArray(pattern);
 
-        for (int i = 0, j = 0; i < s.length(); ) {
-            if (s.charAt(i) != pattern.charAt(j)) {
-                i += j == 0 ? 1 : 0;
+        for (int i = 0, j = 0; i < s.length(); i++) {
+            while(j > 0 && s.charAt(i) != pattern.charAt(j)) {
                 j = kmpArray[j];
-            } else {
-                j++;
-                i++;
             }
+
+            if (s.charAt(i) == pattern.charAt(j)) {
+                j++;
+            }
+
             if (j == kmpArray.length) {
-                return i - j;
+                return i - j + 1;
             }
         }
         return -1;
