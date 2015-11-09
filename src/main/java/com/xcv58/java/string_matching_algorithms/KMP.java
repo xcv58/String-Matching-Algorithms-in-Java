@@ -38,21 +38,13 @@ public class KMP implements Match {
             return array;
         }
         char[] charArray = pattern.toCharArray();
-        // TODO: use existing information to speedup
-        for (int i = 1; i < charArray.length; i++) {
-            for (int j = i - 1; j >= 0; j--) {
-                boolean match = true;
-                for (int k = 0; k < j; k++) {
-                    if (charArray[k] != charArray[k + i - j]) {
-                        match = false;
-                        break;
-                    }
-                }
-                if (match) {
-                    array[i] = j;
-                    break;
-                }
+
+        for (int i = 1; i < charArray.length - 1; i++) {
+            int anchor = array[i];
+            while (anchor > 0 && charArray[anchor] != charArray[i]) {
+                anchor = array[anchor];
             }
+            array[i + 1] = (charArray[anchor] == charArray[i]) ? anchor + 1 : 0;
         }
 //            0
 //             1
